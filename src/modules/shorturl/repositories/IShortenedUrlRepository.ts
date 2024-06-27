@@ -6,6 +6,7 @@ interface IShortenedUrlRepository {
     originalUrl: string;
     shortUrl: string;
     shortId: string;
+    userId?: number;
   }): Promise<IShortenedUrl>;
   findByShortUrl(shortId: string): Promise<IShortenedUrl | null>;
   updateById(shortenedUrlId: number): Promise<void>;

@@ -80,6 +80,80 @@
           }
         }
       }
+    },
+    "/sessions": {
+      "post": {
+        "tags": [
+          "Sessions"
+        ],
+        "summary": "Autenticação (login)",
+        "description": "Rota utilizada para fazer login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sessions"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Rota utilizada para fazer login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "session": {
+                      "$ref": "#/components/schemas/LoginData"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid params."
+          },
+          "401": {
+            "description": "Wrong email or password."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "users",
+        "description": "***Cria um novo usuário***",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Resposta com sucesso"
+          },
+          "400": {
+            "description": "Invalid params."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -96,39 +170,97 @@
       "CreateLinkResponse": {
         "type" : "object",
         "properties": {
+          "id": {
+            "type": "number",
+            "example": "01"
+          },
           "originalUrl": {
-		"type": "string",
-		"example": "https://www.gamevicio2.com/"
-	},
-	"shortUrl": {
-		"type": "string",
-		"example": "http://localhost:3333/DWHL40xo1"
-	},
-	"shortId": {
-		"type": "string",
-		"example": "DWHL40xo1"
-	},
-	"clicks": {
-		"type": "number",
-		"format": "01"
-	},
-	"id": {
-		"type": "number",
-		"example": "01"
-	},
-	"createdAt": {
-		"type": "string",
-		"format": "date-time",
-		"example": "2024-06-25T23:16:36.223Z"
-	},
-	"updatedAt": {
-		"type": "string",
-		"format": "date-time",
-		"example": "2024-06-25T23:16:36.223Z"
-	}
+            "type": "string",
+            "example": "https://www.gamevicio2.com/"
+          },
+          "shortUrl": {
+            "type": "string",
+            "example": "http://localhost:3333/DWHL40xo1"
+          },
+          "shortId": {
+            "type": "string",
+            "example": "DWHL40xo1"
+          },
+          "userId": {
+            "type": "number",
+            "format": "1",
+            "example": 1
+          },
+          "clicks": {
+            "type": "number",
+            "format": "01",
+            "example": 5
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-06-25T23:16:36.223Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-06-25T23:16:36.223Z"
+          }
+        }
+      },
+      "Sessions": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "contact@johndoe.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "123456"
+          }
+        }
+      },
+      "LoginData": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTY1NTM2MzcsImV4cCI6MTcxNjU4MjQzNywic3ViIjoiNjY0ZTAxYzUyZTQwZjg2NWQ4YTY0ZThlIn0.WwTlfIavAAwi0kp78WnD0lypomWxNtzeRXjg1hcn0SQ"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "example": "contact@johndoe.com"
+              }
+            }
+          },
+          "refreshToken": {
+            "type": "string",
+            "example": "3daea6e4-1487-4de3-bc84-7dbf7542412e"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome do usuário",
+            "example": "john doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "johndoe@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "6654df1e6d20dcb5d7bad2d9"
+          }
         }
       }
-
     },
     "parameters": {
       "ShortIdParameter":{

@@ -7,6 +7,7 @@ import { IShortenedUrlRepository } from '../repositories/IShortenedUrlRepository
 interface IRequest {
   url: string;
   baseUrl: string;
+  userId?: number;
 }
 
 @injectable()
@@ -35,7 +36,7 @@ export class ShortenedUrlService {
     return existingShortenedUrl || null;
   }
 
-  async execute({ url, baseUrl }: IRequest): Promise<IShortenedUrl> {
+  async execute({ url, baseUrl, userId }: IRequest): Promise<IShortenedUrl> {
     const shortId = await this.generateUniqueShortId();
     const shortUrl = `${baseUrl}/${shortId}`;
 
@@ -43,6 +44,7 @@ export class ShortenedUrlService {
       originalUrl: url,
       shortUrl,
       shortId,
+      userId,
     });
 
     return shortenedUrl;

@@ -2,9 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { User } from '@/modules/accounts/infra/typeorm/entities/User';
 
 @Entity('shortened_urls')
 class ShortenedUrl {
@@ -20,14 +23,18 @@ class ShortenedUrl {
   @Column({ type: 'varchar', default: null, nullable: true })
   shortId: string;
 
+  @Column({ type: 'int', nullable: true })
+  userId: number;
+
+  @ManyToOne(() => User, user => user.shortenedUrls)
+  user: User;
+
   @Column({ type: 'int', default: 0, nullable: true })
   clicks: number;
 
-  // @Column({ type: 'datetime', nullable: false })
   @CreateDateColumn()
   createdAt: Date;
 
-  // @Column({ type: 'datetime', nullable: false })
   @UpdateDateColumn()
   updatedAt: Date;
 }

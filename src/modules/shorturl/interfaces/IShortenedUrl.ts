@@ -3,6 +3,7 @@ export interface IShortenedUrl {
   originalUrl?: string;
   shortUrl?: string;
   shortId?: string;
+  // userId?: number;
   clicks?: number;
   createdAt?: Date;
   updatedAt?: Date;

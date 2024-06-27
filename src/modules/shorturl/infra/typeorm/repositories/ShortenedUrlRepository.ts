@@ -19,6 +19,7 @@ export class ShortenedUrlRepository implements IShortenedUrlRepository {
     originalUrl: string;
     shortUrl: string;
     shortId: string;
+    userId?: number;
   }): Promise<IShortenedUrl> {
     const shortenedUrl = this.repository.create(data);
     await this.repository.save(shortenedUrl);
