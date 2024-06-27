@@ -1,0 +1,146 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "## Documentação Encurtador de links\n",
+    "description": "ShortURL",
+    "termsOfService": "http://swagger.io/terms/",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Bruno",
+      "email": "mello.bruno@live.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3333",
+      "description": "Local"
+    },
+    {
+      "url": "",
+      "description": "UAT"
+    },
+    {
+      "url": "",
+      "description": "Develop"
+    },
+    {
+      "url": "",
+      "description": "Production"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Shortened URL",
+      "description": "Encurtador links"
+    }
+  ],
+  "paths": {
+    "/shortenedUrl": {
+      "post": {
+        "tags": ["Shortened URL"],
+        "summary": "Encurtador de URL",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLink"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateLinkResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{shortId}": {
+      "get": {
+        "tags": ["Shortened URL"],
+        "description": "Redireciona para a URL original e adicionar +1 na coluna clicks",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ShortIdParameter"
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirecionamento para a URL original"
+          },
+          "404": {
+            "description": "URL encurtada não encontrada"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateLink": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "example": "https://teddy360.com.br/material/marco-legal-das-garantias-sancionado-entenda-o-que-muda/"
+          }
+        }
+      },
+      "CreateLinkResponse": {
+        "type" : "object",
+        "properties": {
+          "originalUrl": {
+		"type": "string",
+		"example": "https://www.gamevicio2.com/"
+	},
+	"shortUrl": {
+		"type": "string",
+		"example": "http://localhost:3333/DWHL40xo1"
+	},
+	"shortId": {
+		"type": "string",
+		"example": "DWHL40xo1"
+	},
+	"clicks": {
+		"type": "number",
+		"format": "01"
+	},
+	"id": {
+		"type": "number",
+		"example": "01"
+	},
+	"createdAt": {
+		"type": "string",
+		"format": "date-time",
+		"example": "2024-06-25T23:16:36.223Z"
+	},
+	"updatedAt": {
+		"type": "string",
+		"format": "date-time",
+		"example": "2024-06-25T23:16:36.223Z"
+	}
+        }
+      }
+
+    },
+    "parameters": {
+      "ShortIdParameter":{
+        "name": "shortId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "sqJsd7frI"
+        }
+      }
+     }
+    }
+  }
+
