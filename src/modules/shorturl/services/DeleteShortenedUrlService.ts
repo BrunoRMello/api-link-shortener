@@ -14,9 +14,6 @@ export class DeleteShortenedUrlService {
   ) {}
 
   async execute({ shortId }: IRequest): Promise<void | null> {
-    const teste = await this.shortenedUrlRepository.softDelete(shortId);
-
-    console.log(shortId);
-    console.log('achou esse', teste);
+    await this.shortenedUrlRepository.softDelete(shortId);
   }
 }

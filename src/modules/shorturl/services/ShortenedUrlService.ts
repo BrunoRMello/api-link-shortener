@@ -12,6 +12,9 @@ interface IRequest {
 
 @injectable()
 export class ShortenedUrlService {
+  async softDelete(shortId: string): Promise<void> {
+    await this.shortenedUrlRepository.softDelete(shortId);
+  }
   constructor(
     @inject('ShortenedUrlRepository')
     private shortenedUrlRepository: IShortenedUrlRepository,
