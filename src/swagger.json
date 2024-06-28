@@ -37,8 +37,11 @@
   "paths": {
     "/shortenedUrl": {
       "post": {
-        "tags": ["Shortened URL"],
+        "tags": [
+          "Shortened URL"
+        ],
         "summary": "Encurtador de URL",
+        "description": "***Poder ser encurtada a URL tanto por um usuário sem Autenticação quanto autenticado***",
         "requestBody": {
           "content": {
             "application/json": {
@@ -64,7 +67,9 @@
     },
     "/{shortId}": {
       "get": {
-        "tags": ["Shortened URL"],
+        "tags": [
+          "Shortened URL"
+        ],
         "description": "Redireciona para a URL original e adicionar +1 na coluna clicks",
         "parameters": [
           {
@@ -74,6 +79,51 @@
         "responses": {
           "302": {
             "description": "Redirecionamento para a URL original"
+          },
+          "404": {
+            "description": "URL encurtada não encontrada"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Shortened URL"
+        ],
+        "description": "Atualiza url de destino/link original",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ShortIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateLinkResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "URL encurtada não encontrada"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Shortened URL"
+        ],
+        "description": "Desativa url encurtada",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ShortIdParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK"
           },
           "404": {
             "description": "URL encurtada não encontrada"
@@ -125,6 +175,49 @@
         }
       }
     },
+    "/refresh-token": {
+      "post": {
+        "tags": [
+          "Sessions"
+        ],
+        "summary": "Validar e recriar Refresh Token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionsToken"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Rota utilizada para validar a existência de um Refresh Token e renová-lo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "$ref": "#/components/schemas/LoginData"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid params."
+          },
+          "404": {
+            "description": "Refresh Token not found."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
     "/users": {
       "post": {
         "tags": [
@@ -132,7 +225,11 @@
         ],
         "summary": "users",
         "description": "***Cria um novo usuário***",
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -154,6 +251,37 @@
           }
         }
       }
+    },
+    "/list": {
+      "get": {
+        "tags": [
+          "Shortened URL"
+        ],
+        "summary": "Listar URLs",
+        "description": "***Lista todas url criada pelo usuário autenticado***",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ShortIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LisUrl"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -168,7 +296,7 @@
         }
       },
       "CreateLinkResponse": {
-        "type" : "object",
+        "type": "object",
         "properties": {
           "id": {
             "type": "number",
@@ -221,6 +349,15 @@
           }
         }
       },
+      "SessionsToken": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "example": "4512f95b-486a-46bd-ac4b-6f644bf2296f"
+          }
+        }
+      },
       "LoginData": {
         "type": "object",
         "properties": {
@@ -260,10 +397,52 @@
             "example": "6654df1e6d20dcb5d7bad2d9"
           }
         }
+      },
+      "LisUrl": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "example": "26"
+            },
+            "originalUrl": {
+              "type": "string",
+              "example": "https://teddy360.com.br/material/marco-legal-das-garantias-sancionado-entenda-o-que-muda/"
+            },
+            "shortUrl": {
+              "type": "string",
+              "example": "http://localhost:3333/xESOL9"
+            },
+            "shortId": {
+              "type": "string",
+              "example": "xESOL9"
+            },
+            "userId": {
+              "type": "number",
+              "example": "1"
+            },
+            "clicks": {
+              "type": "number",
+              "example": "0"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2024-06-27T04:30:14.167Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2024-06-27T04:30:14.167Z"
+            }
+          }
+        }
       }
     },
     "parameters": {
-      "ShortIdParameter":{
+      "ShortIdParameter": {
         "name": "shortId",
         "in": "path",
         "required": true,
@@ -272,7 +451,6 @@
           "example": "sqJsd7frI"
         }
       }
-     }
     }
   }
-
+}

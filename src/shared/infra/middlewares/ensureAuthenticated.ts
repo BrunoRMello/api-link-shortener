@@ -14,6 +14,8 @@ export function ensureAuthenticated(
 ) {
   const authHeader = request.headers.authorization;
 
+  request.user = { id: null };
+
   if (authHeader) {
     const [, token] = authHeader.split(' ');
 
@@ -21,7 +23,7 @@ export function ensureAuthenticated(
       const { sub: user_id } = verify(token, auth.secret_token) as IPayload;
 
       request.user = {
-        id: user_id,
+        id: Number(user_id),
       };
     } catch (error) {
       // Ignore token verification errors

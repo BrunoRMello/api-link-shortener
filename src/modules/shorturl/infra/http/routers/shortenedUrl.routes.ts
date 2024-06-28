@@ -21,6 +21,29 @@ shortenedUrlRouter.post(
 );
 
 shortenedUrlRouter.get(
+  '/list',
+  ensureAuthenticated,
+  shortenedUrlController.show,
+);
+
+shortenedUrlRouter.patch(
+  '/:shortId',
+  ensureAuthenticated,
+  celebrate({
+    [Segments.BODY]: Joi.object().keys({
+      url: Joi.string().required(),
+    }),
+  }),
+  shortenedUrlController.update,
+);
+
+shortenedUrlRouter.delete(
+  '/:shortId',
+  ensureAuthenticated,
+  shortenedUrlController.delete,
+);
+
+shortenedUrlRouter.get(
   '/:shortId',
   celebrate({
     [Segments.PARAMS]: {

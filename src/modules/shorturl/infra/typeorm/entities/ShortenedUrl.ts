@@ -32,6 +32,9 @@ class ShortenedUrl {
   @Column({ type: 'int', default: 0, nullable: true })
   clicks: number;
 
+  @Column({ type: 'timestamp', default: null, nullable: true })
+  deletedAt: Date;
+
   @CreateDateColumn()
   createdAt: Date;
 

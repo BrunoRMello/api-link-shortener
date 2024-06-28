@@ -1,7 +1,8 @@
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
-import { uuid } from 'uuidv4';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { v4 as uuidv4 } from 'uuid';
 
 import auth from '@/configs/auth';
 import { IDateProvider } from '@/shared/container/providers/DateProvider/IDateProvider';
@@ -60,7 +61,7 @@ class AuthenticateUserService {
     const refresh_token = await this.usersTokensRepository.create({
       user_id: user.id.toString(),
       expire: refresh_token_expires_date,
-      token: uuid(),
+      token: uuidv4(),
     });
 
     const tokenReturn: IResponse = {

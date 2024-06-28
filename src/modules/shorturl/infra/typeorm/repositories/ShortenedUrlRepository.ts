@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 
 import { IShortenedUrl } from '@/modules/shorturl/interfaces/IShortenedUrl';
 import { IShortenedUrlRepository } from '@/modules/shorturl/repositories/IShortenedUrlRepository';
@@ -13,6 +13,18 @@ export class ShortenedUrlRepository implements IShortenedUrlRepository {
 
   constructor() {
     this.repository = appDataSource.manager.getRepository(ShortenedUrl);
+  }
+  async save(shortenedUrl: IShortenedUrl): Promise<IShortenedUrl> {
+    const savedShortenedUrl = await this.repository.save(shortenedUrl);
+    return savedShortenedUrl;
+  }
+  async softDelete(shortId: string): Promise<void> {
+    await this.repository
+      .createQueryBuilder()
+      .update(ShortenedUrl)
+      .set({ deletedAt: new Date() })
+      .where('shortId = :shortId', { shortId })
+      .execute();
   }
 
   async create(data: {
@@ -28,9 +40,18 @@ export class ShortenedUrlRepository implements IShortenedUrlRepository {
 
   async findByShortUrl(shortId: string): Promise<IShortenedUrl | null> {
     const shortenedUrl = await this.repository.findOne({
-      where: { shortId },
+      where: { shortId, deletedAt: IsNull() },
     });
     return shortenedUrl;
+  }
+
+  async findByUserId(userId: number): Promise<IShortenedUrl[] | null> {
+    const list = await this.repository.find({ where: { userId } });
+    return list;
+  }
+
+  async findByOriginalUrl(originalUrl: string): Promise<ShortenedUrl | null> {
+    return this.repository.findOne({ where: { originalUrl } });
   }
 
   async updateById(shortenedUrlId: number): Promise<void> {
