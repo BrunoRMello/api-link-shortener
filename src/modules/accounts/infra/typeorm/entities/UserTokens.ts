@@ -15,17 +15,17 @@ class UserTokens {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column()
+  @Column({ type: 'integer', name: 'user_id', nullable: false })
   user_id?: string;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   users: User;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, name: 'token', nullable: false })
   token?: string;
 
-  @Column()
+  @Column({ type: 'timestamp', name: 'expire', nullable: true })
   expire?: Date;
 
   @CreateDateColumn()

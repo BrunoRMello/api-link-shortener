@@ -21,14 +21,12 @@ class User {
   @Column({ type: 'varchar', length: 255, name: 'email' })
   email: string;
 
-  @Column({ default: null, nullable: true })
+  @Column({ type: 'varchar', name: 'password', nullable: false })
   password!: string;
 
-  @Column()
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created', type: 'timestamp' })
   created: Date;
 
-  @Column()
   @CreateDateColumn()
   modified: Date;
 

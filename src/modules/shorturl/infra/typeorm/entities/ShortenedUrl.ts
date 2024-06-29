@@ -29,10 +29,15 @@ class ShortenedUrl {
   @ManyToOne(() => User, user => user.shortenedUrls)
   user: User;
 
-  @Column({ type: 'int', default: 0, nullable: true })
+  @Column({ type: 'int', default: 0, name: 'clicks', nullable: true })
   clicks: number;
 
-  @Column({ type: 'timestamp', default: null, nullable: true })
+  @Column({
+    type: 'timestamp',
+    default: null,
+    name: 'deletedAt',
+    nullable: true,
+  })
   deletedAt: Date;
 
   @CreateDateColumn()
