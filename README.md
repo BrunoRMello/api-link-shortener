@@ -16,7 +16,7 @@
 </div>
 
 <div align="center">
-  <img src="https://img.shields.io/static/v1?label=Node.js&message=18.0.0&color=009CA3&style=plastic&logo=node.js" alt="Versão do Node.js" />
+  <img src="https://img.shields.io/static/v1?label=Node.js&message=20.15.0&color=009CA3&style=plastic&logo=node.js" alt="Versão do Node.js" />
   <img src="https://img.shields.io/static/v1?label=Typescript&message=5.0.0&color=009CA3&style=plastic&logo=typescript" alt="Versão do Typescript" />
   <img src="https://img.shields.io/static/v1?label=Jest&message=29.7.0&color=009CA3&style=plastic&logo=jest" alt="Versão do Jest" />
   <img src="https://img.shields.io/static/v1?label=Supertest&message=6.3.3&color=009CA3&style=plastic&logo=supertest" alt="Versão do Supertest" />
@@ -72,7 +72,7 @@
 
   <ul>
     <li>Git</li>
-    <li>Node (Versão mínima 18)</li>
+    <li>Node (Versão mínima 20)</li>
     <li>Yarn</li>
   </ul>
 

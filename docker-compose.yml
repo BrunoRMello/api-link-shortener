@@ -5,8 +5,8 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: shorturl
+      MYSQL_ROOT_PASSWORD: 'secret-pw'
+      MYSQL_DATABASE: db
       MYSQL_USER: admin
       MYSQL_PASSWORD: 1234b
     ports:
