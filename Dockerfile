@@ -1,36 +1,26 @@
-# Estágio de build
-FROM node:18 as build
-
-# Diretório de trabalho na imagem
-WORKDIR /app
-
-# Copia os arquivos package.json e yarn.lock
-COPY package.json yarn.lock ./
-
-# Instala as dependências
-RUN yarn install
-
-# Copia o restante dos arquivos da aplicação
-COPY . .
-
-# Compila a aplicação
-RUN yarn build
-
-# Estágio de produção
+# Use uma imagem Node.js oficial como a imagem de base
 FROM node:18
 
-# Diretório de trabalho na imagem
-WORKDIR /app
+# Instale o Yarn globalmente
+RUN npm install -g yarn
 
-# Copia os arquivos compilados do estágio de build
-COPY --from=build /app/dist ./dist
+# Defina o diretório de trabalho dentro do contêiner
+WORKDIR /usr/src/app
 
-# Copia os arquivos de dependências e instala somente as dependências de produção
-COPY --from=build /app/package.json /app/yarn.lock ./
-RUN yarn install --production
+# Copie o package.json e o yarn.lock para o diretório de trabalho
+COPY package.json yarn.lock ./
 
-# Porta em que a aplicação será exposta
+# Instale as dependências do projeto usando Yarn
+RUN yarn install
+
+# Copie o restante do código da aplicação para o diretório de trabalho
+COPY . .
+
+# Compile o TypeScript para JavaScript
+RUN yarn build
+
+# Exponha a porta que a aplicação irá rodar
 EXPOSE 3333
 
 # Comando para iniciar a aplicação
-CMD ["node", "dist/shared/infra/http/server.js"]
+CMD ["yarn", "start"]
