@@ -60,6 +60,7 @@
     <li><strong>Dotenv:</strong> Carrega variáveis de ambiente a partir de um arquivo `.env` para dentro do `process.env`.</li>
     <li><strong>Commitizen:</strong> Ferramenta para escrever mensagens de commit padronizadas.</li>
     <li><strong>Cross-env:</strong> Permite definir variáveis de ambiente em scripts de uma maneira independente de plataforma.</li>
+
   </ul>
 
 
@@ -74,6 +75,8 @@
     <li>Git</li>
     <li>Node (Versão mínima 20)</li>
     <li>Yarn</li>
+    <li>Docker</li>
+    <li>Docker Compose</li>
   </ul>
 
   <h3>Clone o projeto e acesse a pasta:</h3>
@@ -108,6 +111,14 @@ MYSQL_DB_NAME=shorturl
 MYSQL_DB_HOST=localhost
 MYSQL_DB_PORT=3306
 ```
+<h3>Rodando com Docker:</h3>
+<p>Se preferir, você pode executar a aplicação usando Docker. Siga os passos abaixo:</p>
+
+```bash
+$ docker-compose up --build
+```
+<p>Este comando irá construir a imagem do Docker e iniciar a aplicação dentro de um container.</p>
+
 <h3 id='documentação' >Documentação:</h3>
 <p>Acesse a documentação completa da API em <code>http://localhost:3333/docs</code></p>
 
