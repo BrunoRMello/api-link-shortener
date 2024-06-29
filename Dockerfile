@@ -1,9 +1,6 @@
 # Use uma imagem Node.js oficial como a imagem de base
 FROM node:18
 
-# Instale o Yarn globalmente
-RUN npm install -g yarn
-
 # Defina o diretório de trabalho dentro do contêiner
 WORKDIR /usr/src/app
 
