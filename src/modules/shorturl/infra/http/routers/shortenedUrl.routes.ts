@@ -14,7 +14,9 @@ shortenedUrlRouter.post(
   ensureAuthenticated,
   celebrate({
     [Segments.BODY]: Joi.object().keys({
-      url: Joi.string().required(),
+      url: Joi.string()
+        .uri({ scheme: [/https?/] })
+        .required(),
     }),
   }),
   shortenedUrlController.create,

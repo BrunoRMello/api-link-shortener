@@ -41,7 +41,7 @@
           "Shortened URL"
         ],
         "summary": "Encurtador de URL",
-        "description": "***Poder ser encurtada a URL tanto por um usuário sem Autenticação quanto autenticado***",
+       "description": "***A API permite encurtar URLs tanto para usuários autenticados quanto não autenticados. Por razões de segurança, apenas URLs com certificado (https://) são permitidas.***",
         "requestBody": {
           "content": {
             "application/json": {
