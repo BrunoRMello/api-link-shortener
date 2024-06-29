@@ -1,34 +1,35 @@
 version: '3.8'
 
 services:
-  db:
+
+  mysql:
     image: mysql/mysql-server:5.7
-    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 'secret-pw'
+      MYSQL_ROOT_PASSWORD: 1234b
       MYSQL_DATABASE: db
       MYSQL_USER: admin
       MYSQL_PASSWORD: 1234b
     ports:
-      - "3306:3306"
+      - "3307:3306"  # Expor a porta 3306 para 3307 na máquina host
     volumes:
-      - db_data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Adicionar script de inicialização
 
-  app:
+  api:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "3333:3333"
     environment:
-      NODE_ENV: dev
       MYSQL_USERNAME: admin
       MYSQL_PASSWORD: 1234b
       MYSQL_DB_NAME: shorturl
-      MYSQL_DB_HOST: db
-      MYSQL_DB_PORT: 3306
+      MYSQL_DB_HOST: mysql
+      MYSQL_DB_PORT: 3306  # Conectar na porta interna 3306
+    ports:
+      - "3333:3333"
     depends_on:
-      - db
+      - mysql
+    restart: unless-stopped
 
 volumes:
-  db_data:
+  mysql-data:
