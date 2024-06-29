@@ -5,10 +5,10 @@ services:
   mysql:
     image: mysql/mysql-server:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: 1234b
+      MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: db
       MYSQL_USER: admin
-      MYSQL_PASSWORD: 1234b
+      MYSQL_PASSWORD: 1234
     ports:
       - "3307:3306"  # Expor a porta 3306 para 3307 na máquina host
     volumes:
